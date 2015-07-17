@@ -86,5 +86,5 @@ class TestPalindromeTrue(unittest.TestCase):
         node6.setValue(1)
         self.palindrome.setValue(node1)
 
-    def TestPalindromeTrue(self):
+    def testPalindromeTrue(self):
         self.assertTrue(self.palindrome.isPalindrome())

@@ -116,3 +116,80 @@ class TestBrackets(unittest.TestCase):
     def testBrackets(self):
         self.assertEqual(group_check("()"), True)
         self.assertEqual(group_check("({"), False)
+
+def group_by_commas(n):
+    n=str(n)[::-1]
+    retstr=str()
+    for i in reversed(range(len(n))):
+
+        if i%3==0 and i!=0:
+            retstr=retstr+n[i]+","
+        else:
+            retstr=retstr+n[i]
+
+    return retstr
+
+def luck_check(string):
+    length=len(string)
+    try:
+        sum1=0
+        sum2=0
+        i=0
+        rangeLen=int(string)
+        rangeLen=length//2-1
+        for i in range(rangeLen+1):
+            sum1=sum1+int(string[i])
+        rangeLen=length//2 if length%2==0 else length//2+1
+        for i in range(rangeLen,length):
+            sum2=sum2+int(string[i])
+        if sum1==sum2:
+            return True
+        else:
+            return False
+
+    except Exception:
+        raise ValueError
+
+
+def  say_what_you_see( input_strings):
+    outputList = list()
+    for word in input_strings:
+        tempStr = ""
+        curChar = ""
+        numChar = 0
+        for char in word:
+            if curChar == "":
+                curChar = char
+                numChar += 1
+            elif curChar != char:
+                tempStr += str(numChar)+curChar
+                numChar = 1
+                curChar = char
+            elif curChar == char:
+                numChar += 1
+        tempStr += str(numChar)+curChar
+        outputList.append(tempStr)
+    return outputList
+
+
+class TestSayWhatYouSee(unittest.TestCase):
+    def testSay(self):
+        self.assertEqual(say_what_you_see(['1111','3333','112233','111111111111111112222','1009']),
+                         ['41','43','212223','17142','112019'])
+
+class TestLucky(unittest.TestCase):
+    def testBasic(self):
+        self.assertEqual(luck_check('111780073'),True, "The function doesn't recognise a lucky ticket number")
+        self.assertEqual(luck_check('29G54'),False, 'The function doesn\'t return true for a wrong number')
+
+
+class TestGroupByCommas(unittest.TestCase):
+    def testGroupBy(self):
+        self.assertEqual(group_by_commas(1), '1')
+        self.assertEqual(group_by_commas(10), '10')
+        self.assertEqual(group_by_commas(100), '100')
+        self.assertEqual(group_by_commas(1000), '1,000')
+        self.assertEqual(group_by_commas(10000), '10,000')
+        self.assertEqual(group_by_commas(100000), '100,000')
+        self.assertEqual(group_by_commas(1000000), '1,000,000')
+        self.assertEqual(group_by_commas(35235235), '35,235,235')

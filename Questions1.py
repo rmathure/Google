@@ -46,6 +46,36 @@ def getAllOccurences(numArray, element, position):
             break
     return count
 
+import sys
+def longest_slide_down(pyramid):
+    last_line = pyramid[-1]
+    max_slide = 0
+    for i in range(len(last_line)):
+        temp_max1 = last_line[i] + longest_slide_particular(pyramid[:-1], i, max_slide)
+        temp_max2 = temp_max1
+        if i > 0:
+            temp_max2 = last_line[i] + longest_slide_particular(pyramid[:-1], i - 1, max_slide)
+        max_slide = max(temp_max1, temp_max2, max_slide)
+    return max_slide
+
+def longest_slide_particular(pyramid, bottom_index, max_slide):
+    if len(pyramid) ==0:
+        return max_slide
+    temp1 = pyramid[-1][bottom_index] + longest_slide_particular(pyramid[:-1], bottom_index, max_slide)
+    temp2 = temp1
+    if bottom_index > 0:
+       temp2 = pyramid[-1][bottom_index] + longest_slide_particular(pyramid[:-1], bottom_index - 1, max_slide)
+    max_slide = max(temp1, temp2, max_slide)
+    return  max_slide
+
+class TestPyramid(unittest.TestCase):
+    def test_base(self):
+        self.assertEqual(longest_slide_down([[3], [7, 4], [2, 4, 6], [8, 5, 9, 3]]), 23)
+
+
+def snail(array):
+    return list(array[0]) + snail(zip(*array[1:])[::-1]) if array else []
+
 class TestNumberOfOccurences(unittest.TestCase):
 
   def test_basic(self):

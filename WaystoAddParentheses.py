@@ -52,9 +52,13 @@ class Solution(object):
             return [self.compute(num_list[0], num_list[1], operator_list[0])]
         else:
             output = map(lambda x: self.compute(num_list[0], x, operator_list[0])
-                                , self.parseInput(num_list[1:], operator_list[1:]))
-            output.extend(map(lambda x: self.compute(self.compute(num_list[0], num_list[1], operator_list[0]), x, operator_list[1])
-                                , self.parseInput(num_list[2:], operator_list[2:])))
+                                ,self.parseInput(num_list[1:], operator_list[1:]))
+            output.extend(map(
+                lambda x: self.compute(self.compute(num_list[0], num_list[1], operator_list[0]), x, operator_list[1])
+                                ,self.parseInput(num_list[2:], operator_list[2:])))
+            if len(num_list) > 3:
+                output.extend(map(lambda x: self.compute(x, num_list[-1], operator_list[-1]) ,
+                                  self.parseInput(num_list[:-1], operator_list[:-1])))
             return output
 
 
